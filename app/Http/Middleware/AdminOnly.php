@@ -16,7 +16,7 @@ class AdminOnly
      */
     public function handle(Request $request, Closure $next)
     {
-        if (Auth::check() && Auth::user()->email === 'admin@admin.com') {
+        if (Auth::check() && str_contains(Auth::user()->email, '@admin.com')) {
             return $next($request);
         }
 
