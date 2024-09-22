@@ -28,6 +28,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
 
 
+    Route::get('/designer/{id}', [AuthController::class, 'getDesigner']);
     Route::get('/categories', [DesignerController::class, 'getCategories']);
     Route::get('/colors', [DesignerController::class, 'getColors']);
     Route::get('/sizes', [DesignerController::class, 'getSizes']);

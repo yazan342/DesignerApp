@@ -154,4 +154,20 @@ class AuthController extends Controller
             return apiErrors($e->getMessage());
         }
     }
+
+
+
+    public function getDesigner($id)
+    {
+        try {
+
+          $designer=  User::query()->findOrFail($id);
+
+            return apiResponse("designer retrived successfully",$designer);
+            
+        } catch (Exception $e) {
+
+            return apiErrors($e->getMessage());
+        }
+    }
 }
