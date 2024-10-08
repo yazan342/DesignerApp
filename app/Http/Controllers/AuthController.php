@@ -102,7 +102,7 @@ class AuthController extends Controller
                 ->where('id', Auth::user()->id)
                 ->with(['designs' => function ($query) {
                     $query->where('status', DesignStatusEnum::Accepted)
-                        ->with('category');
+                        ->with(['category', 'orders.user']);
                 }])
                 ->first();
         } else {
@@ -161,10 +161,9 @@ class AuthController extends Controller
     {
         try {
 
-          $designer=  User::query()->findOrFail($id);
+            $designer =  User::query()->with('designs')->findOrFail($id);
 
-            return apiResponse("designer retrived successfully",$designer);
-            
+            return apiResponse("designer retrived successfully", $designer);
         } catch (Exception $e) {
 
             return apiErrors($e->getMessage());

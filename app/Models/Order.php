@@ -39,4 +39,6 @@ class Order extends Model
     {
         return $this->belongsTo(Design::class, 'design_id', 'id');
     }
+
+
 }

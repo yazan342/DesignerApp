@@ -153,4 +153,18 @@ class DesignerController extends Controller
             return apiErrors($e->getMessage());
         }
     }
+
+
+    public function getSortedDesigns()
+    {
+        $designs = Design::with('reviews')
+            ->get()
+            ->sortByDesc(function ($design) {
+                return $design->average_rate;
+            })
+            ->values()
+            ->all();
+
+        return apiResponse("Designs Retrieved Successfully", $designs);
+    }
 }

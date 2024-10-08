@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ChangeStatusRequest;
 use App\Http\Requests\OrderRequest;
 use App\Models\Design;
 use App\Models\Order;
@@ -9,6 +10,7 @@ use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class OrderController extends Controller
 {
@@ -44,6 +46,34 @@ class OrderController extends Controller
             ]);
             DB::commit();
             return apiResponse("Order placed successfully", $order);
+        } catch (Exception $e) {
+            DB::rollBack();
+            return apiErrors($e->getMessage());
+        }
+    }
+
+
+
+    public function changeStatus(ChangeStatusRequest $request)
+    {
+        try {
+
+
+            DB::beginTransaction();
+            if (!Auth::user()->is_designer) {
+                return apiErrors("You are Not A designer.");
+            }
+
+
+            $order = Order::query()->with('design')->findOrFail($request->order_id);
+            if ($order->design->designer_id != Auth::id()) {
+                return apiErrors("Only the owner of the design can change the status of the order");
+            }
+
+            $order->status = $request->status;
+            $order->save();
+            DB::commit();
+            return apiResponse("Order status changed successfully", $order);
         } catch (Exception $e) {
             DB::rollBack();
             return apiErrors($e->getMessage());

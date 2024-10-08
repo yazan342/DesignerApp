@@ -32,6 +32,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('/categories', [DesignerController::class, 'getCategories']);
     Route::get('/colors', [DesignerController::class, 'getColors']);
     Route::get('/sizes', [DesignerController::class, 'getSizes']);
+    Route::get('/sorted-designs', [DesignerController::class, 'getSortedDesigns']);
 
 
     Route::get('/design/{id}', [DesignerController::class, 'getDesign']);
@@ -45,6 +46,8 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
 
     Route::post('/order', [OrderController::class, 'order']);
+    Route::post('change-status', [OrderController::class, 'changeStatus']);
+
 
 
 
