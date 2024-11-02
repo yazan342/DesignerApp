@@ -84,6 +84,8 @@ class AuthController extends Controller
                 $user->address = $request->input('address');
             }
 
+            $user->save();
+
             DB::commit();
 
             return apiResponse('User info updated successfully', $user);
