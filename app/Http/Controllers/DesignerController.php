@@ -132,6 +132,8 @@ class DesignerController extends Controller
                     $design->image =  uploadImage($request->file('image'));
                 }
 
+                $design->save();
+
 
                 return apiResponse("Design Updated Successfully", $design);
             }
