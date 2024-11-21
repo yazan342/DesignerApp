@@ -159,7 +159,7 @@ class DesignerController extends Controller
 
     public function getSortedDesigns()
     {
-        $designs = Design::with('reviews')
+        $designs = Design::with('reviews')->where('status', DesignStatusEnum::Accepted)
             ->get()
             ->sortByDesc(function ($design) {
                 return $design->average_rate;
